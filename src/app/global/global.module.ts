@@ -60,6 +60,8 @@ import {
   MatMomentDateModule
 } from "@angular/material-moment-adapter";
 import { CustomDateAdapter } from "./services/customDateAdapter.service";
+import { HeaderComponent } from "./header/header.component";
+import { NavComponent } from "./nav/nav.component";
 
 const moment = _moment;
 const APP_DATE_FORMATS = {
@@ -126,11 +128,14 @@ const APP_DATE_FORMATS = {
     MatTooltipModule,
     MatMomentDateModule,
     MatTreeModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    HeaderComponent,
+    NavComponent
   ],
   providers: [
     CustomDateAdapter,
     { provide: DateAdapter, useClass: CustomDateAdapter }
-  ]
+  ],
+  declarations: [HeaderComponent, NavComponent]
 })
 export class MaterialModule {}
