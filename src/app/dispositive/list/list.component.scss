@@ -1,0 +1,18 @@
+.card-image-rectangle {
+  width: 40%;
+  position: absolute;
+  top: -50px;
+  left: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.card {
+  overflow: visible !important;
+  margin-bottom: 70px;
+  & .title-card {
+    padding-left: 0.5rem;
+  }
+}
+.card-title {
+  display: block;
+}

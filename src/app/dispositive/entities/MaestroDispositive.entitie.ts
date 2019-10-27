@@ -5,4 +5,5 @@ export class MaestroDispositive {
   id: number;
   dispositive: Dispositive;
   maestro: Maestro;
+  value: string;
 }
