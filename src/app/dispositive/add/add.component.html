@@ -1,29 +1,7 @@
 <h2 mat-dialog-title>Registro de Dispositivos</h2>
 <mat-dialog-content>
   <div class="row">
-    <div class="col s12 m2">
-      Lista de componentes
-      <div class="collection">
-        <a
-          id="router-cmp"
-          (click)="switchPage('Router')"
-          class="collection-item"
-        >
-          <img src="assets/dispositivos/router.svg" style="max-width:50px;" />
-        </a>
-        <a
-          id="switch-cmp"
-          (click)="switchPage('Switch')"
-          class="collection-item"
-        >
-          <img src="assets/dispositivos/switch.png" style="max-width:50px;" />
-        </a>
-        <a id="switch-cmp" (click)="switchPage('Pc')" class="collection-item">
-          <img src="assets/dispositivos/pc.png" style="max-width:50px;" />
-        </a>
-      </div>
-    </div>
-    <div class="col s12 m10">
+    <div class="col s12">
       <div [@vanish]="page">
         <h1 class="mat-title">{{ currentPage?.title }}</h1>
         <p class="mat-small">{{ currentPage?.message }}</p>

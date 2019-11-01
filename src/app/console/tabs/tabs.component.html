@@ -1,0 +1,10 @@
+<a (click)="createNewConsole()">Create New Console</a>
+<mat-tab-group *ngIf="tabs.length > 0; else NotConsoles">
+  <mat-tab [label]="tab.name" *ngFor="let tab of tabs">
+    <ng-template matTabContent> </ng-template>
+  </mat-tab>
+</mat-tab-group>
+<template #templateTerminal></template>
+<ng-template #NotConsoles>
+  <p>No se selecciono ningun equipo</p>
+</ng-template>

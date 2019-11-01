@@ -7,7 +7,7 @@ import { Maestro } from "src/app/global/entities/Maestro.entitie";
   providedIn: "root"
 })
 export class MaestroService {
-  private urlController = "http://localhost:4000/maestro";
+  private urlController = "http://localhost:3000/maestro";
   constructor(private http: HttpClient) {}
 
   all(): Observable<Maestro[]> {

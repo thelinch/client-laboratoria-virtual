@@ -1,11 +1,14 @@
+import { SharedService } from "./../../services/shared.service";
 import { DispositiveService } from "./../services/dispositive.service";
 import { Dispositive } from "./../entities/Dispositive.entitie";
-import { Component, OnInit } from "@angular/core";
-import { MatDialog, MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material";
+import { Component, OnInit, Input } from "@angular/core";
+import { MatDialog } from "@angular/material";
 import { AddComponent } from "../add/add.component";
-import { $animations } from "../add/add-animations";
-import { Observable } from "rxjs";
-import { DispositiveQuery } from "../query/dispositive.query";
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem
+} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "app-list",
@@ -13,23 +16,31 @@ import { DispositiveQuery } from "../query/dispositive.query";
   styleUrls: ["./list.component.scss"]
 })
 export class ListComponent implements OnInit {
-  dispositives$: Observable<Dispositive[]>;
-  constructor(
-    public dialog: MatDialog,
-    private dispositiveQuery: DispositiveQuery,
-    private dispositiveService: DispositiveService
-  ) {
-    this.dispositiveService.all().subscribe();
-    this.dispositives$ = dispositiveQuery.selectAll();
+  listItems: Array<any>;
+  constructor(public dialog: MatDialog, private sharedService: SharedService) {
+    this.listItems = [
+      { id: "Pc", asset: "assets/dispositivos/pc.png" },
+      { id: "Switch", asset: "assets/dispositivos/switch.png" },
+      { id: "Router", asset: "assets/dispositivos/router.png" }
+    ];
   }
 
   ngOnInit() {}
-  openDialog(): void {
+  openDialog(option: string): void {
     const dialogRef = this.dialog.open(AddComponent, {
       width: "100%",
-      data: "Pc",
+      data: option,
       direction: "ltr",
       position: { right: "20px" }
     });
+  }
+  drop(event: CdkDragDrop<string[]>) {
+    this.sharedService.drop(this.listItems[event.previousIndex]);
+    /* if (event.container.id === event.previousContainer.id) {
+      moveItemInArray(this.listItems, event.previousIndex, event.currentIndex);
+    } else {
+      console.log("entro al else");
+      this.sharedService.drop(event);
+    }*/
   }
 }

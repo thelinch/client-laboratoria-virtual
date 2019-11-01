@@ -48,33 +48,10 @@ import { CdkTreeModule } from "@angular/cdk/tree";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import * as _moment from "moment";
 // tslint:disable-next-line:no-duplicate-imports
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE
-} from "@angular/material/core";
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MatMomentDateModule
-} from "@angular/material-moment-adapter";
+import { DateAdapter } from "@angular/material/core";
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { CustomDateAdapter } from "./services/customDateAdapter.service";
-import { HeaderComponent } from "./header/header.component";
-import { NavComponent } from "./nav/nav.component";
 
-const moment = _moment;
-const APP_DATE_FORMATS = {
-  parse: {
-    dateInput: "DD/MM/YYYY"
-  },
-  display: {
-    dateInput: "MM/DD/YYYY",
-    monthYearLabel: "MM YYYY",
-    dateA11yLabel: "MM/DD/YYYY",
-    monthYearA11yLabel: "MM YYYY"
-  }
-};
 /**
  * NgModule that includes all Material modules.
  */
@@ -128,14 +105,11 @@ const APP_DATE_FORMATS = {
     MatTooltipModule,
     MatMomentDateModule,
     MatTreeModule,
-    MatNativeDateModule,
-    HeaderComponent,
-    NavComponent
+    MatNativeDateModule
   ],
   providers: [
     CustomDateAdapter,
     { provide: DateAdapter, useClass: CustomDateAdapter }
-  ],
-  declarations: [HeaderComponent, NavComponent]
+  ]
 })
 export class MaterialModule {}

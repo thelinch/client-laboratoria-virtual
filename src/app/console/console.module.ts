@@ -1,15 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MaterialModule } from "./../global/global.module";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { NewConsoleComponent } from "./new/new.component";
+import { NgTerminalModule, NgTerminalComponent } from "ng-terminal";
+import { TabsComponent } from "./tabs/tabs.component";
+import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 
-import { ConsoleRoutingModule } from './console-routing.module';
-import { NewComponent } from './new/new.component';
-
-
+const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
 @NgModule({
-  declarations: [NewComponent],
+  declarations: [NewConsoleComponent, TabsComponent],
   imports: [
     CommonModule,
-    ConsoleRoutingModule
-  ]
+    NgTerminalModule,
+    MaterialModule,
+    SocketIoModule.forRoot(config)
+  ],
+  exports: [TabsComponent],
+  entryComponents: [NgTerminalComponent]
 })
-export class ConsoleModule { }
+export class ConsoleModule {}

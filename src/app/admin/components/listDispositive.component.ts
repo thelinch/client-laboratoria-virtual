@@ -2,9 +2,7 @@ import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: "list-dispositive",
-  template: `
-    <app-list></app-list>
-  `
+  template: ``
 })
 export class ListDispositiveComponent implements OnInit {
   ngOnInit() {}

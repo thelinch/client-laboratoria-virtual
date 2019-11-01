@@ -1,1 +1,6 @@
-<p>lienzo works!</p>
+<div id="list-2" cdkDropList cdkDropListConnectedTo="list-1">
+  <div *ngFor="let item of listItem" cdkDrag>
+    <img [src]="item.asset" style="max-width:50px;" />
+  </div>
+</div>
+<canvas #canvas style="width: 100%;"></canvas>

@@ -1,1 +1,10 @@
-<app-lienzo> </app-lienzo>
+<div class="row">
+  <div class="col s12 m2">
+    Lista de componentes
+    <app-list></app-list>
+  </div>
+  {{ redSelected$ | async | json }}
+  <div class="col s12 m10">
+    <app-lienzo> </app-lienzo>
+  </div>
+</div>

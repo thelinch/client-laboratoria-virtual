@@ -1,40 +1,23 @@
 <div class="row">
   <div class="col s12">
-    <a
-      class="btn-floating btn-large waves-effect waves-light red"
-      (click)="openDialog()"
-      ><i class="material-icons">add</i></a
+    <div
+      class="collection"
+      cdkDropList
+      #todoList="cdkDropList"
+      id="list-1"
+      [cdkDropListData]="listItems"
+      [cdkDropListConnectedTo]="['doneList']"
+      (cdkDropListDropped)="drop($event)"
     >
-  </div>
-  <div class="col s12">
-    <div class="row">
-      <div class="col s12 m4" *ngFor="let dispositive of dispositives$ | async">
-        <div class="card">
-          <div class="card-image-rectangle">
-            <img
-              [src]="dispositive.typeDispositive.url"
-              class="responsive-img"
-              alt=""
-              srcset=""
-            />
-          </div>
-          <h4 class="title-card">
-            {{ dispositive.name }}
-          </h4>
-          <div class="card-content">
-            <div class="list">
-              <p *ngFor="let detailMestro of dispositive.maestroDispositive">
-                <strong>{{ detailMestro.maestro.name }}</strong> :{{
-                  detailMestro.value
-                }}
-              </p>
-            </div>
-          </div>
-          <div class="card-action">
-            <a href="#">This is a link</a>
-          </div>
-        </div>
-      </div>
+      <a
+        id="router-cmp"
+        *ngFor="let item of listItems"
+        cdkDrag
+        (click)="openDialog(item.id)"
+        class="collection-item"
+      >
+        <img [src]="item.asset" style="max-width:50px;" />
+      </a>
     </div>
   </div>
 </div>

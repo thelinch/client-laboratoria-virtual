@@ -14,7 +14,7 @@ const routes: Routes = [
         path: "dispositive",
         component: ListDispositiveComponent
       },
-      { path: "new-red", component: RedComponent },
+      { path: "new-red/:id", component: RedComponent },
       { path: "list-red", component: ListRedComponent }
     ]
   }
