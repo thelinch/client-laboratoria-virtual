@@ -1,8 +1,9 @@
+import { TypeDispositive } from "./../entities/TypeDispositive.entitie";
+import { Dispositive } from "./../entities/Dispositive.entitie";
 import { DispositiveService } from "./../services/dispositive.service";
 import { MaestroService } from "./../services/maestro.service";
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { Dispositive } from "../entities/Dispositive.entitie";
 import { $pages } from "./typeDispositive-pages";
 import {
   FormGroup,
@@ -32,7 +33,7 @@ export class AddComponent implements OnInit {
   private allMaestro: Maestro[];
   constructor(
     public dialogRef: MatDialogRef<AddComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: addType,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private _fb: FormBuilder,
     private maestroService: MaestroService,
     private dispositiveService: DispositiveService
@@ -49,7 +50,7 @@ export class AddComponent implements OnInit {
     this.switchPage((this.page = data));
   }
   get currentPage() {
-    return this.pages[this.page || "Pc"];
+    return this.pages[this.page.dispositive.typeDispositive.name];
   }
   ngOnInit() {}
   onNoclick(): void {
@@ -69,6 +70,10 @@ export class AddComponent implements OnInit {
       };
     });
     valueForm.maestroDispositive = arrayMaestroDetail;
+    valueForm.red = { id: this.page.red };
+    valueForm.x = this.page.dispositive.x;
+    valueForm.y = this.page.dispositive.y;
+
     let dispositiveCreate = await this.dispositiveService
       .save(valueForm as Dispositive)
       .toPromise();
@@ -76,15 +81,16 @@ export class AddComponent implements OnInit {
       type: dispositiveCreate.typeDispositive.name
     });
   }
-  switchPage(page: addType) {
+  switchPage(page: any) {
+    console.log("dispositive", page.dispositive.typeDispositive.name);
     //Remueve los controlers
     Object.keys(this.formAddDispositive.controls).forEach(c => {
       this.formAddDispositive.removeControl(c);
     });
-    this.type.setValue(page);
+    this.type.setValue(page.dispositive.typeDispositive.name);
     this.formAddDispositive.addControl("name", this.name);
     this.formAddDispositive.addControl("type", this.type);
-    switch ((this.page = page)) {
+    switch (page.dispositive.typeDispositive.name) {
       case "Pc":
         this.formAddDispositive.setControl(
           "maestroDispositive",

@@ -1,6 +1,10 @@
+import { Observable } from "rxjs";
+import { RedEntity } from "./../entities/red.entity";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material";
 import { AddComponent } from "../add/add.component";
+import { RedService } from "../services/red.service";
+import { RedQuery } from "../query/red.query";
 
 @Component({
   selector: "app-list-red",
@@ -8,9 +12,17 @@ import { AddComponent } from "../add/add.component";
   styleUrls: ["./list-red.component.scss"]
 })
 export class ListRedComponent implements OnInit {
-  constructor(public dialog: MatDialog) {}
+  listRed$: Observable<RedEntity[]>;
+  constructor(
+    public dialog: MatDialog,
+    private redService: RedService,
+    private redQuery: RedQuery
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.redService.all().subscribe();
+    this.listRed$ = this.redQuery.selectAll();
+  }
   openModalCreate() {
     this.dialog.open(AddComponent, { data: null });
   }

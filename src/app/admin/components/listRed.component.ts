@@ -12,7 +12,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class ListRedComponent implements OnInit {
   ngOnInit() {
     this.redQuery
-      .selectLast()
+      .selectActive()
       .pipe(filterNil)
       .subscribe(e => {
         this.router.navigate([`../new-red/${e.id}`], {

@@ -4,6 +4,7 @@ import { RedEntity } from "./../entities/red.entity";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RedStore } from "../store/red.store";
+import { transaction } from "@datorama/akita";
 
 @Injectable({
   providedIn: "root"
@@ -13,13 +14,19 @@ export class RedService {
   private id: number = 0;
   constructor(private _http: HttpClient, private store: RedStore) {}
   save(red: RedEntity): Promise<RedEntity> {
-    this.id++;
-    return new Promise<RedEntity>((result, reject) => {
-      result({ ...red, id: this.id });
-    });
-    /* return this._http
-      .post<RedEntity>(this.urlController + "create", red).pipe(tap(redCreate=>this.store.add(redCreate)))
-      .toPromise();*/
+    return this._http
+      .post<RedEntity>(this.urlController + "save", red)
+      .pipe(
+        tap(redCreate => {
+          this.addAndActiceEntity(redCreate);
+        })
+      )
+      .toPromise();
+  }
+  @transaction()
+  addAndActiceEntity(redCreate: RedEntity) {
+    this.store.add(redCreate);
+    this.store.setActive(redCreate.id);
   }
   all(): Observable<RedEntity[]> {
     return this._http

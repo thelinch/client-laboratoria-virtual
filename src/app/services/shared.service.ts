@@ -1,3 +1,4 @@
+import { TypeDispositive } from "./../dispositive/entities/TypeDispositive.entitie";
 import { Injectable, EventEmitter } from "@angular/core";
 
 @Injectable({
@@ -8,7 +9,7 @@ export class SharedService {
   constructor() {
     this.eventEmmiter = new EventEmitter();
   }
-  drop(item: any) {
+  sharedDispositive(item: any) {
     this.eventEmmiter.emit(item);
   }
 }

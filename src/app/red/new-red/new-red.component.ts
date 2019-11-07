@@ -1,3 +1,5 @@
+import { RedEntity } from "./../entities/red.entity";
+import { Observable } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { RedQuery } from "../query/red.query";
 
@@ -8,9 +10,10 @@ import { RedQuery } from "../query/red.query";
 })
 export class NewRedComponent implements OnInit {
   redSelected$ = this.redQuery.selectRed$;
-  constructor(private redQuery: RedQuery) {
-    
-  }
+  //redSelected$: Observable<RedEntity>;
+  constructor(private redQuery: RedQuery) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.redQuery.hasActive();
+  }
 }

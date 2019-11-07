@@ -6,7 +6,12 @@
       >Modal</a
     >
   </div>
-  <div class="col s12">
-    LISTA DE REDES CREADAS
+  <div class="col s12 m4" *ngFor="let red of listRed$ | async">
+    <div class="card">
+      <div class="card-title center-align">{{ red.name }}</div>
+      <div class="card-content">
+        {{ red.description }}
+      </div>
+    </div>
   </div>
 </div>

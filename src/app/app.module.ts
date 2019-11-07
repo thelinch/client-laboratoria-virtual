@@ -7,7 +7,7 @@ import { AppRoutingModule } from "./app.rounting.module";
 import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { environment } from "../environments/environment";
 import { AkitaNgRouterStoreModule } from "@datorama/akita-ng-router-store";
-import { SharedService } from './services/shared.service';
+import { SharedService } from "./services/shared.service";
 
 @NgModule({
   declarations: [AppComponent],

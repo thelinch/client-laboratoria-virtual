@@ -8,6 +8,7 @@ import { AddComponent } from "./add/add.component";
 import { MaterialModule } from "../global/global.module";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
+import { TypeDispositiveService } from "./services/type-dispositive.service";
 
 @NgModule({
   declarations: [ListComponent, AddComponent],
@@ -19,7 +20,7 @@ import { HttpClientModule } from "@angular/common/http";
     HttpClientModule
   ],
   exports: [ListComponent],
-  providers: [MaestroService, DispositiveService],
+  providers: [MaestroService, DispositiveService, TypeDispositiveService],
   entryComponents: [AddComponent]
 })
 export class DispositiveModule {}

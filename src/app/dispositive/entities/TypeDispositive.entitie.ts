@@ -1,8 +1,9 @@
-import { Dispositive } from "./Dispositive.entitie";
+import { ID } from "@datorama/akita";
 
-export class TypeDispositive {
-  id: number;
+export interface TypeDispositive {
+  id: ID;
   name: string;
-  dispositives: Dispositive[];
-  url!: string;
+  totalDispositive: number;
+  url: string;
+  totalTransfer: number;
 }

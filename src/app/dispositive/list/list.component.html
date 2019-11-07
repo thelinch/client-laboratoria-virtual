@@ -5,18 +5,15 @@
       cdkDropList
       #todoList="cdkDropList"
       id="list-1"
-      [cdkDropListData]="listItems"
       [cdkDropListConnectedTo]="['doneList']"
-      (cdkDropListDropped)="drop($event)"
     >
       <a
-        id="router-cmp"
-        *ngFor="let item of listItems"
+        *ngFor="let item of listTypeDispositive$ | async"
         cdkDrag
-        (click)="openDialog(item.id)"
-        class="collection-item"
+        (click)="drop(item.id)"
+        class="collection-item box"
       >
-        <img [src]="item.asset" style="max-width:50px;" />
+        <img [src]="item.url" style="max-width:50px;" />
       </a>
     </div>
   </div>

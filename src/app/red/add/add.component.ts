@@ -7,7 +7,6 @@ import {
   FormControl,
   Validators
 } from "@angular/forms";
-import { RedStore } from "../store/red.store";
 import { RedService } from "../services/red.service";
 @Component({
   selector: "app-add",
@@ -20,13 +19,12 @@ export class AddComponent implements OnInit {
     public dialogRef: MatDialogRef<AddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RedEntity,
     private _fb: FormBuilder,
-    private redService: RedService,
-    private store: RedStore
+    private redService: RedService
   ) {}
 
   ngOnInit() {
     this.formRed = this._fb.group({
-      title: new FormControl("", [Validators.required]),
+      name: new FormControl("", [Validators.required]),
       description: new FormControl("", [Validators.required])
     });
   }
@@ -36,7 +34,6 @@ export class AddComponent implements OnInit {
       let redCreate = await this.redService.save(this.formRed.value);
       if (redCreate) {
         this.dialogRef.close();
-        this.store.add(redCreate);
       } else {
       }
     } else {
