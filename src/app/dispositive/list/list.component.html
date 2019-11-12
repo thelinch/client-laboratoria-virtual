@@ -1,20 +1,16 @@
-<div class="row">
-  <div class="col s12">
-    <div
-      class="collection"
-      cdkDropList
-      #todoList="cdkDropList"
-      id="list-1"
-      [cdkDropListConnectedTo]="['doneList']"
-    >
-      <a
-        *ngFor="let item of listTypeDispositive$ | async"
-        cdkDrag
-        (click)="drop(item.id)"
-        class="collection-item box"
-      >
-        <img [src]="item.url" style="max-width:50px;" />
-      </a>
-    </div>
-  </div>
+<div
+  class="collection"
+  cdkDropList
+  #todoList="cdkDropList"
+  id="list-1"
+  [cdkDropListData]="listTypeDispositive$ | async"
+  (cdkDropListDropped)="drop($event)"
+>
+  <a
+    *ngFor="let item of listTypeDispositive$ | async"
+    cdkDrag
+    class="collection-item box"
+  >
+    <img [src]="item.url" style="max-width:50px;" />
+  </a>
 </div>

@@ -30,9 +30,11 @@ export class TypeDispositiveService {
     );
   }
   @transaction()
-  selectTransferType(id: ID) {
+  selectTransferType(distance: any, id: ID) {
     this.storeTypeDispositive.update(id, state => ({
-      totalTransfer: state.totalTransfer + 1
+      totalTransfer: state.totalTransfer + 1,
+      xDrop: distance.x,
+      yDrop: distance.y
     }));
     this.setActive(id);
   }

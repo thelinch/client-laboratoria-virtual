@@ -65,7 +65,7 @@ export class AddComponent implements OnInit {
       let maestro = this.allMaestro.find(e => e.name == key);
 
       return {
-        maestro: { id: maestro.id, name: key },
+        maestro: { id: maestro.id },
         value: this.formAddDispositive.value["maestroDispositive"][key]
       };
     });

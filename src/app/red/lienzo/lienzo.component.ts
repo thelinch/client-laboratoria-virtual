@@ -10,10 +10,10 @@ import {
   Renderer2
 } from "@angular/core";
 
-import * as $ from "jquery";
 import { TypeDispositiveQuery } from "src/app/dispositive/query/typeDispositive.query";
 import { TypeDispositiveTransfer } from "src/app/dispositive/entities/TypeDispositiveTransfer.entitie";
 import { RedQuery } from "../query/red.query";
+import { MyState } from "src/app/dispositive/entities/myState.entitie";
 @Component({
   selector: "app-lienzo",
   templateUrl: "./lienzo.component.html",
@@ -25,48 +25,27 @@ export class LienzoComponent implements OnInit, AfterViewInit {
   private isDragging: boolean;
   private ctx: CanvasRenderingContext2D;
   private numero: number = 0;
-  private listDispositiveTransfer: Array<TypeDispositiveTransfer>;
   private activateRed: RedEntity;
   offsetCanvas: any;
   position: any;
   private canMouseY: number;
   private canMouseX: number;
+  private myState: MyState;
   constructor(
     private renderer2: Renderer2,
     private typeDispositiveQuery: TypeDispositiveQuery,
     private sharedService: SharedService,
     private redQuery: RedQuery
   ) {
-    this.listDispositiveTransfer = new Array();
     this.isDragging = false;
     this.activateRed = this.redQuery.getActive();
   }
 
   ngAfterViewInit(): void {
     this.ctx = this.canvas.nativeElement.getContext("2d");
-    this.offsetCanvas = $(this.canvas.nativeElement).offset();
-    console.log(this.offsetCanvas);
-    this.renderer2.listen(this.canvas.nativeElement, "mousemove", ev => {
-      this.position = this.getMouse(ev);
-    });
-    this.renderer2.listen(this.canvas.nativeElement, "mouseUp", ev => {
-      this.position = this.getMouse(ev);
-    });
-    this.renderer2.listen(this.canvas.nativeElement, "dblclick", e => {
-      let mouse = this.getMouse(e);
-      let dispositive = this.listDispositiveTransfer.find(Dt =>
-        Dt.constains(mouse.x, mouse.y)
-      );
-      if (dispositive) {
-        this.sharedService.sharedDispositive({
-          red: this.activateRed.id,
-          dispositive: dispositive
-        });
-      }
-    });
   }
   ngOnInit() {
-    console.log(this.canvas.nativeElement.offsetParent);
+    this.myState = new MyState(this.canvas.nativeElement);
     this.typeDispositiveQuery
       .selectActive()
       .pipe(filterNil)
@@ -74,24 +53,55 @@ export class LienzoComponent implements OnInit, AfterViewInit {
         let typeDispositiveTransferCreate = new TypeDispositiveTransfer(
           typeDispositiveTransfer,
           typeDispositiveTransfer.name,
-          this.ctx,
           20,
           20,
           0,
           0
         );
-        typeDispositiveTransferCreate.draw();
-        this.listDispositiveTransfer.push(typeDispositiveTransferCreate);
+        this.myState.dispositiveTransfers.push(typeDispositiveTransferCreate);
+        this.myState.draw();
       });
+    this.renderer2.listen(this.canvas.nativeElement, "mousedown", e => {
+      let mouse = this.myState.getMouse(e);
+      this.myState.dispositiveTransferSelected = this.myState.dispositiveTransfers.find(
+        element => element.constains(mouse.x, mouse.y)
+      );
+      if (this.myState.dispositiveTransferSelected) {
+        this.myState.dragoffx =
+          mouse.x - this.myState.dispositiveTransferSelected.x;
+        this.myState.dragoffy =
+          mouse.y - this.myState.dispositiveTransferSelected.y;
+        this.myState.isDragging = true;
+      }
+    });
+    this.renderer2.listen(this.canvas.nativeElement, "mouseup", e => {
+      this.myState.isDragging = false;
+    });
+    this.renderer2.listen(this.canvas.nativeElement, "mousemove", e => {
+      let mouse = this.myState.getMouse(e);
+      if (this.myState.dispositiveTransfers && this.myState.isDragging) {
+        this.myState.dispositiveTransferSelected.x =
+          mouse.x - this.myState.dragoffx;
+        this.myState.dispositiveTransferSelected.y =
+          mouse.y - this.myState.dragoffy;
+        this.myState.draw();
+      }
+    });
+    this.renderer2.listen(this.canvas.nativeElement, "dblclick", e => {
+      let mouse = this.myState.getMouse(e);
+      let dispositiveTransfer = this.myState.dispositiveTransfers.find(d =>
+        d.constains(mouse.x, mouse.y)
+      );
+      if (dispositiveTransfer) {
+        let redActive = this.redQuery.getActive();
+        this.sharedService.sharedDispositive({
+          dispositive: dispositiveTransfer,
+          red: 31
+        });
+      }
+    });
   }
   openDialog(id) {
     console.log("abriendo Modal...");
-  }
-
-  getMouse(event) {
-    return {
-      x: parseInt(event.pageX) - parseInt(this.offsetCanvas.left),
-      y: parseInt(event.pageY) - parseInt(this.offsetCanvas.top)
-    };
   }
 }

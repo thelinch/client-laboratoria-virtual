@@ -50,8 +50,12 @@ export class ListComponent implements OnInit {
       position: { right: "20px" }
     });
   }
-  drop(id) {
-    this.typeDispositiveService.selectTransferType(id);
+  drop(event: any) {
+    console.log("se hizo drop");
+    this.typeDispositiveService.selectTransferType(
+      event.distance,
+      event.container.data[event.currentIndex].id
+    );
   }
   /*drop(event: CdkDragDrop<string[]>) {
     //this.sharedService.drop(this.listItems[event.previousIndex]);

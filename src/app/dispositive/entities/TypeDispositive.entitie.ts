@@ -6,4 +6,6 @@ export interface TypeDispositive {
   totalDispositive: number;
   url: string;
   totalTransfer: number;
+  xDrop: number;
+  yDrop: number;
 }
