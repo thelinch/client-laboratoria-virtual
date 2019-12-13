@@ -9,8 +9,17 @@
   <div class="col s12 m4" *ngFor="let red of listRed$ | async">
     <div class="card">
       <div class="card-title center-align">{{ red.name }}</div>
-      <div class="card-content">
-        {{ red.description }}
+      <div class="card-stacked">
+        <div class="card-content">
+          {{ red.description }}
+        </div>
+      </div>
+      <div class="card-action">
+        <a
+          class="btn-floating btn-small waves-effect waves-light blue"
+          (click)="redirect(red.id)"
+          ><i class="material-icons">arrow_forward</i></a
+        >
       </div>
     </div>
   </div>

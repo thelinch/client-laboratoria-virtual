@@ -22,30 +22,38 @@ import { MyState } from "src/app/dispositive/entities/myState.entitie";
 export class LienzoComponent implements OnInit, AfterViewInit {
   listItem: any = [];
   @ViewChild("canvas", { static: true }) canvas: ElementRef<HTMLCanvasElement>;
-  private isDragging: boolean;
-  private ctx: CanvasRenderingContext2D;
-  private numero: number = 0;
   private activateRed: RedEntity;
   offsetCanvas: any;
   position: any;
-  private canMouseY: number;
-  private canMouseX: number;
   private myState: MyState;
   constructor(
     private renderer2: Renderer2,
     private typeDispositiveQuery: TypeDispositiveQuery,
     private sharedService: SharedService,
     private redQuery: RedQuery
-  ) {
-    this.isDragging = false;
-    this.activateRed = this.redQuery.getActive();
-  }
+  ) {}
 
-  ngAfterViewInit(): void {
-    this.ctx = this.canvas.nativeElement.getContext("2d");
-  }
+  ngAfterViewInit(): void {}
   ngOnInit() {
     this.myState = new MyState(this.canvas.nativeElement);
+    this.redQuery
+      .selectActive()
+      .pipe(filterNil)
+      .subscribe(redActive => {
+        this.activateRed = redActive;
+        this.activateRed.dispositives.forEach(d => {
+          let typeDispositiveTransferCreate = new TypeDispositiveTransfer(
+            d.typeDispositive,
+            d.typeDispositive.name,
+            20,
+            20,
+            d.y,
+            d.x
+          );
+          this.myState.dispositiveTransfers.push(typeDispositiveTransferCreate);
+        });
+        this.myState.draw();
+      });
     this.typeDispositiveQuery
       .selectActive()
       .pipe(filterNil)

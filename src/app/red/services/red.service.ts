@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RedStore } from "../store/red.store";
 import { transaction } from "@datorama/akita";
+import { Dispositive } from "src/app/dispositive/entities/Dispositive.entitie";
 
 @Injectable({
   providedIn: "root"
@@ -28,9 +29,30 @@ export class RedService {
     this.store.add(redCreate);
     this.store.setActive(redCreate.id);
   }
+  activeRed(idRed: number) {
+    this.store.setActive(idRed);
+  }
   all(): Observable<RedEntity[]> {
     return this._http
       .get<RedEntity[]>(this.urlController + "all")
       .pipe(tap(listRed => this.store.set(listRed)));
+  }
+  getDispositiveOfRedId(idRed: number): Promise<RedEntity> {
+    return this._http
+      .get<RedEntity>(this.urlController + idRed + "dispositives")
+      .toPromise();
+  }
+  @transaction()
+  async getDispositivesAndActiveRed(idRed: any) {
+    let red = await this.getDispositiveOfRedId(idRed);
+    console.log(red);
+    this.store.update(idRed, {
+      description: red.description,
+      name: red.name,
+      dispositives: red.dispositives,
+      id: red.id,
+      status: red.status
+    });
+    this.store.setActive(idRed);
   }
 }

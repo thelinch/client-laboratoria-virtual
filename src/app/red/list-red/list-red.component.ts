@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { RedEntity } from "./../entities/red.entity";
 import { Component, OnInit } from "@angular/core";
@@ -16,7 +17,8 @@ export class ListRedComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private redService: RedService,
-    private redQuery: RedQuery
+    private redQuery: RedQuery,
+    private route: Router
   ) {}
 
   ngOnInit() {
@@ -27,4 +29,12 @@ export class ListRedComponent implements OnInit {
     this.dialog.open(AddComponent, { data: null });
   }
   editRed() {}
+  /*
+  
+  */
+
+  redirect(idRed: number) {
+    this.redService.getDispositivesAndActiveRed(idRed);
+    this.route.navigateByUrl("/user/red/" + idRed);
+  }
 }
