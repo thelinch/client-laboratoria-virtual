@@ -6,8 +6,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app.rounting.module";
 import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
 import { environment } from "../environments/environment";
-import { AkitaNgRouterStoreModule } from "@datorama/akita-ng-router-store";
 import { SharedService } from "./services/shared.service";
+import { NotificacionBusService } from "./services/notificationBusService.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,10 +15,9 @@ import { SharedService } from "./services/shared.service";
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    environment.production ? [] : AkitaNgDevtools.forRoot(),
-    AkitaNgRouterStoreModule.forRoot()
+    environment.production ? [] : AkitaNgDevtools.forRoot()
   ],
-  providers: [SharedService],
+  providers: [SharedService, NotificacionBusService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

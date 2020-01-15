@@ -15,12 +15,7 @@ import { GlobalComponentModule } from "../global/globalComponent.module";
     RedComponent,
     ListRedComponent
   ],
-  imports: [
-    CommonModule,
-    GlobalComponentModule,
-    AdminRoutingModule,
-    RedModule
-  ],
+  imports: [CommonModule, GlobalComponentModule, AdminRoutingModule, RedModule],
   exports: [ViewComponent]
 })
 export class AdminModule {}

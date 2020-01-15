@@ -1,7 +1,10 @@
 import { TypeDispositive } from "./TypeDispositive.entitie";
+import { MaestroDispositive } from "./MaestroDispositive.entitie";
 
 export class TypeDispositiveTransfer {
+  id?: number;
   typeDispositive: TypeDispositive;
+  maestroDispositive?: Array<MaestroDispositive>;
   type: string;
   w: number;
   h: number;

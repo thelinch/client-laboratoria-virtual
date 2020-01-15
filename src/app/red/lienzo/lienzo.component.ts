@@ -7,25 +7,32 @@ import {
   ElementRef,
   ViewChild,
   AfterViewInit,
-  Renderer2
+  Renderer2,
+  OnDestroy
 } from "@angular/core";
 
 import { TypeDispositiveQuery } from "src/app/dispositive/query/typeDispositive.query";
 import { TypeDispositiveTransfer } from "src/app/dispositive/entities/TypeDispositiveTransfer.entitie";
 import { RedQuery } from "../query/red.query";
 import { MyState } from "src/app/dispositive/entities/myState.entitie";
+import { tap } from "rxjs/operators";
+import { Subscription } from "rxjs";
 @Component({
   selector: "app-lienzo",
   templateUrl: "./lienzo.component.html",
   styleUrls: ["./lienzo.component.scss"]
 })
-export class LienzoComponent implements OnInit, AfterViewInit {
+export class LienzoComponent implements OnInit, AfterViewInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.redActive$.unsubscribe();
+  }
   listItem: any = [];
   @ViewChild("canvas", { static: true }) canvas: ElementRef<HTMLCanvasElement>;
   private activateRed: RedEntity;
   offsetCanvas: any;
   position: any;
   private myState: MyState;
+  private redActive$: Subscription;
   constructor(
     private renderer2: Renderer2,
     private typeDispositiveQuery: TypeDispositiveQuery,
@@ -36,24 +43,33 @@ export class LienzoComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
   ngOnInit() {
     this.myState = new MyState(this.canvas.nativeElement);
-    this.redQuery
+
+    this.redActive$ = this.redQuery
       .selectActive()
-      .pipe(filterNil)
-      .subscribe(redActive => {
-        this.activateRed = redActive;
-        this.activateRed.dispositives.forEach(d => {
-          let typeDispositiveTransferCreate = new TypeDispositiveTransfer(
-            d.typeDispositive,
-            d.typeDispositive.name,
-            20,
-            20,
-            d.y,
-            d.x
-          );
-          this.myState.dispositiveTransfers.push(typeDispositiveTransferCreate);
-        });
-        this.myState.draw();
-      });
+      .pipe(
+        filterNil,
+        tap(redActive => {
+          this.activateRed = redActive;
+          this.activateRed.dispositives.forEach(d => {
+            let typeDispositiveTransferCreate = new TypeDispositiveTransfer(
+              d.typeDispositive,
+              d.typeDispositive.name,
+              20,
+              20,
+              d.y,
+              d.x
+            );
+            typeDispositiveTransferCreate.id = parseInt(d.id.toString());
+            typeDispositiveTransferCreate.maestroDispositive =
+              d.maestroDispositive;
+            this.myState.dispositiveTransfers.push(
+              typeDispositiveTransferCreate
+            );
+          });
+          this.myState.draw();
+        })
+      )
+      .subscribe();
     this.typeDispositiveQuery
       .selectActive()
       .pipe(filterNil)
@@ -104,7 +120,7 @@ export class LienzoComponent implements OnInit, AfterViewInit {
         let redActive = this.redQuery.getActive();
         this.sharedService.sharedDispositive({
           dispositive: dispositiveTransfer,
-          red: 31
+          red: redActive.id
         });
       }
     });

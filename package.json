@@ -31,6 +31,7 @@
     "ng-terminal": "^2.2.1",
     "ngx-socket-io": "^3.0.1",
     "rxjs": "~6.4.0",
+    "sweetalert2": "^9.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

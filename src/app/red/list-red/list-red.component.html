@@ -16,9 +16,14 @@
       </div>
       <div class="card-action">
         <a
-          class="btn-floating btn-small waves-effect waves-light blue"
+          class=" btn-small margin-1 waves-effect waves-light blue"
           (click)="redirect(red.id)"
           ><i class="material-icons">arrow_forward</i></a
+        >
+        <a
+          class="btn-small margin-1 waves-effect waves-light blue"
+          (click)="editRed(red.id)"
+          ><i class="material-icons">edit</i></a
         >
       </div>
     </div>
